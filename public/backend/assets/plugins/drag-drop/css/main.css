@@ -1,0 +1,43 @@
+ /* Style for the drop area */
+ .drop-area {
+     position: relative;
+     width: 100%;
+     height: 227px;
+     border: 1px solid #dee2e6;
+     border-radius: .375rem;
+     text-align: center;
+     align-items: center;
+     justify-content: center;
+     display: flex;
+ }
+
+ /* Style for the file input field */
+ .drop-area input[type="file"] {
+     position: absolute;
+     left: 0;
+     top: 0;
+     height: 100%;
+     width: 100%;
+     opacity: 0;
+ }
+
+ /* Style for the icon */
+ .drop-area .icon {
+     font-size: 100px;
+     opacity: 1;
+     color: #c2c2c2;
+ }
+
+ #fileList div {
+     margin-top: 5px;
+     background: wheat;
+     padding: 3px 16px;
+     border-radius: .375rem;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+ #fileList button {
+     margin-left: 10px;
+ }
