@@ -68,7 +68,7 @@ pipeline {
         stage('Laravel Migration') {
             steps {
                 sh '''
-                    docker exec $APP_CONTAINER php artisan migrate --force
+                    docker exec $APP_CONTAINER php artisan migrate --seed --force
                 '''
             }
         }
