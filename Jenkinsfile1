@@ -19,24 +19,40 @@ pipeline {
 
         stage('Stop Previous Containers') {
             steps {
-                sh '''
-                    docker compose down || true
-                '''
+                sh 'docker compose down || true'
             }
         }
 
         stage('Build Docker Containers') {
             steps {
-                sh '''
-                    docker compose build --no-cache
-                '''
+                sh 'docker compose build --no-cache'
             }
         }
 
         stage('Run Docker Containers') {
             steps {
+                sh 'docker compose up -d'
+            }
+        }
+
+        stage('Wait For App Startup') {
+            steps {
+                sh 'sleep 15'
+            }
+        }
+
+        stage('Composer Install') {
+            steps {
                 sh '''
-                    docker compose up -d
+                    docker exec $APP_CONTAINER composer install
+                '''
+            }
+        }
+
+        stage('Laravel Key Generate') {
+            steps {
+                sh '''
+                    docker exec $APP_CONTAINER php artisan key:generate
                 '''
             }
         }
@@ -52,7 +68,7 @@ pipeline {
         stage('Laravel Migration') {
             steps {
                 sh '''
-                    docker exec $APP_CONTAINER php artisan migrate --force
+                    docker exec $APP_CONTAINER php artisan migrate:fresh --seed --force
                 '''
             }
         }
@@ -70,9 +86,7 @@ pipeline {
 
         stage('Show Running Containers') {
             steps {
-                sh '''
-                    docker ps
-                '''
+                sh 'docker ps'
             }
         }
 
