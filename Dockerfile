@@ -1,41 +1,42 @@
-FROM php:8.2-apache
+FROM php:8.3-fpm-alpine
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     zip \
     unzip \
     git \
     curl \
     libzip-dev \
     libpng-dev \
-    libonig-dev \
+    oniguruma-dev \
     libxml2-dev \
-    && docker-php-ext-install pdo_mysql mysqli zip
+    mysql-client
 
-# Enable Apache Rewrite Module
-RUN a2enmod rewrite
+# Install PHP extensions
+RUN docker-php-ext-install \
+    pdo_mysql \
+    mysqli \
+    zip
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set Laravel project path
+# Set working directory
 WORKDIR /var/www/html/docker-laravel
 
-# Copy project files
+# Copy application
 COPY . .
 
-# Install Laravel dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+# Install dependencies
+RUN composer install \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader
 
-# Set Apache document root to Laravel public folder
-RUN sed -i 's|/var/www/html|/var/www/html/docker-laravel/public|g' /etc/apache2/sites-available/000-default.conf
-
-# Set permissions
+# Permissions
 RUN chown -R www-data:www-data /var/www/html/docker-laravel \
     && chmod -R 755 /var/www/html/docker-laravel
 
-# Expose Apache port
-EXPOSE 80
+EXPOSE 9000
 
-# Start Apache
-CMD ["apache2-foreground"]
+CMD ["php-fpm"]
