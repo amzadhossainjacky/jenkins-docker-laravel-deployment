@@ -7,6 +7,9 @@ services:
     container_name: laravel-app
     restart: always
 
+    volumes:
+      - ./:/var/www/html/docker-laravel
+
     ports:
       - "9000:9000"
 
