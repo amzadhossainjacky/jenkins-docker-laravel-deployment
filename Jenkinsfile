@@ -72,6 +72,14 @@ pipeline {
             }
         }
 
+        stage('Laravel Storage Link') {
+            steps {
+                sh '''
+                    docker exec $APP_CONTAINER php artisan storage:link || true
+                '''
+            }
+        }
+
         stage('Laravel Migration') {
             steps {
                 sh '''
