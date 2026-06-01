@@ -17,12 +17,6 @@ pipeline {
             }
         }
 
-        // stage('Stop Previous Containers') {
-        //     steps {
-        //         sh 'docker compose down || true'
-        //     }
-        // }
-
         stage('Stop Previous Containers') {
             steps {
                 sh '''
