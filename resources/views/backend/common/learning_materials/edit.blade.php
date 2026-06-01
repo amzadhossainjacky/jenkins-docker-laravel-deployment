@@ -133,10 +133,12 @@
                                                                 @foreach ($model->attachment as $key => $item)
                                                                     <tr>
                                                                         <td>
-                                                                            <img src="{{ asset('storage/'.$item->file_name) }}"
-                                                                                alt="{{ $item->original_file_name }}"
-                                                                                width="100">
-                                                                            <br>
+                                                                            @if (in_array(strtolower($item->extension), ['jpg','jpeg','png','gif','webp','svg','bmp']))
+                                                                                <img src="{{ asset('storage/attachments/'.$item->file) }}"
+                                                                                    alt="{{ $item->original_file_name }}"
+                                                                                    width="100">
+                                                                                <br>
+                                                                            @endif
                                                                             {{ $item->original_file_name }}
                                                                         </td>
 
