@@ -17,9 +17,22 @@ pipeline {
             }
         }
 
+        // stage('Stop Previous Containers') {
+        //     steps {
+        //         sh 'docker compose down || true'
+        //     }
+        // }
+
         stage('Stop Previous Containers') {
             steps {
-                sh 'docker compose down || true'
+                sh '''
+                    docker compose down --remove-orphans || true
+
+                    docker rm -f laravel-app || true
+                    docker rm -f mysql-db || true
+                    docker rm -f phpmyadmin || true
+                    docker rm -f nginx || true
+                '''
             }
         }
 
