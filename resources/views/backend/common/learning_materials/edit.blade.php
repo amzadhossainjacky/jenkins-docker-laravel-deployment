@@ -119,7 +119,7 @@
                                                             </thead>
                                                             <tbody>
 
-                                                                @foreach ($model->attachment as $key => $item)
+                                                                {{-- @foreach ($model->attachment as $key => $item)
                                                                     <tr>
                                                                         <td>{{ $item->original_file_name }}</td>
                                                                         <td class="text-center">
@@ -128,7 +128,26 @@
                                                                                     class="bi bi-trash"></i></a>
                                                                         </td>
                                                                     </tr>
-                                                                @endforeach
+                                                                @endforeach --}}
+
+                                                                @foreach ($model->attachment as $key => $item)
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="{{ asset('storage/'.$item->file_name) }}"
+                                                                                alt="{{ $item->original_file_name }}"
+                                                                                width="100">
+                                                                            <br>
+                                                                            {{ $item->original_file_name }}
+                                                                        </td>
+
+                                                                        <td class="text-center">
+                                                                            <a href="{{ route(\Request::segment(1) . '.learning.materials.remove.attachment', [$model->id, $item->id]) }}"
+                                                                            class="destroy-btn">
+                                                                                <i class="bi bi-trash"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endforeach
                                                             </tbody>
                                                         </table>
                                                     </div>
