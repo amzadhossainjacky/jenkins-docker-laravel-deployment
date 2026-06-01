@@ -75,7 +75,10 @@ pipeline {
         stage('Laravel Storage Link') {
             steps {
                 sh '''
-                    docker exec $APP_CONTAINER php artisan storage:link || true
+                    docker exec $APP_CONTAINER sh -c '
+                        rm -rf public/storage 2>/dev/null || true
+                        php artisan storage:link
+                    '
                 '''
             }
         }
